@@ -19,8 +19,27 @@ class Pathfinder:
     # example returned list might look like:
     # ["U", "R", "R", "U"]
     def solve(problem):
-        # TODO: Implement breadth first tree search!
+        q = queue.queue()
+        q.put(SearchTreeNode(problem.initial, None, None))
+        storage_set = set()
+        while q:
+            curr_node = q.get()
+                if problem.goalTest(curr_node.state):
+                    return Pathfinder.find_path(curr_node)
+for action, state in problem.transitions(curr_node.state):
+    if state not in storage_set:
+        q.put(SearchTreeNode(state, action, curr_node))
+    storage_set.add(curr_node.state)
         return []
+
+def find_path(search_node):
+    path = []
+    curr_node = search_node
+    while curr_node.parent:
+        path.append(curr_node.action)
+        curr_node = curr_node.parent
+return path[::-1]
+
 
 class PathfinderTests(unittest.TestCase):
     def test_maze1(self):
